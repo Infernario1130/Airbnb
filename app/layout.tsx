@@ -7,6 +7,7 @@ import getCurrentUser from "./actions/getCurrentUser";
 import RegisterModal from "./components/modals/RegisterModal";
 import ToasterProvider from "./providers/ToasterProvider";
 import LoginModal from "./components/modals/LoginModal";
+import RentModal from "./components/modals/RentModal";
 
 const font =  Nunito ({
   variable: "--font-nunito",
@@ -34,9 +35,10 @@ export default async function RootLayout({
         className={`${font.variable} antialiased`}
       >
         <ToasterProvider/>
+        <RentModal/>
         <RegisterModal/>
         <LoginModal/>
-        <Navbar currentUser={currentUser}/>
+        <Navbar currentUser={currentUser as any}/>
         {children}
       </body>
     </html>

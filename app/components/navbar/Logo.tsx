@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 const Logo = () => {
     const router = useRouter()
     return (
-        <Image 
+        <Image onClick={()=> router.push("/")}
         height="50"
         width="50"
         alt="Logo"
