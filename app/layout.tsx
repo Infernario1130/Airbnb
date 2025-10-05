@@ -8,6 +8,7 @@ import RegisterModal from "./components/modals/RegisterModal";
 import ToasterProvider from "./providers/ToasterProvider";
 import LoginModal from "./components/modals/LoginModal";
 import RentModal from "./components/modals/RentModal";
+import "leaflet/dist/leaflet.css";
 
 const font =  Nunito ({
   variable: "--font-nunito",
