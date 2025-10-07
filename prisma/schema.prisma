@@ -54,6 +54,7 @@ model Listing {
   guestCount  Int
   locationValue String
   userId    String
+  price     Int
   reservation   Reservation[]
 }
 

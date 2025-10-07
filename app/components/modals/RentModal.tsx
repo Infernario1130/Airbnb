@@ -92,7 +92,7 @@ const RentModal = () => {
         try {
             const response = await axios.post("/api/listings", data)
             
-            if (response?.status === 200) {
+            if (response?.status === 201) {
                 toast.success("Listings created")
                 router.refresh();
                 reset();
