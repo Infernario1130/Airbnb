@@ -28,7 +28,8 @@ export default async function getCurrentUser() {
             id: currentUser.id.toString(),
             name: currentUser.name,
             email: currentUser.email,
-            image: currentUser.image
+            image: currentUser.image,
+            favoriteIds: currentUser.favoriteIds
         }
 
    } catch(error) {
