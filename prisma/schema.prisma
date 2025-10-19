@@ -20,6 +20,8 @@ model User {
   favoriteIds String[]  @default([])
   accounts  Account[]
   reservations Reservation[]
+  listings Listing[]
+
 }
 
 model Account {
@@ -56,6 +58,7 @@ model Listing {
   userId    String
   price     Int
   reservation   Reservation[]
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 
