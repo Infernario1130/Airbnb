@@ -55,12 +55,12 @@ const UserMenu = ({currentUser}: UserMenuProps) => {
                         /> 
 
                         <MenuItem 
-                        onClick={()=> {}}
+                        onClick={()=> router.push("/favorites")}
                         label="My favorites"
                         />      
                         
                         <MenuItem 
-                        onClick={()=> {}}
+                        onClick={()=> router.push("/reservations")}
                         label="My reservation"
                         /> 
 

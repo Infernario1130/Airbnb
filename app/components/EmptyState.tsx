@@ -15,7 +15,7 @@ const EmptyState = ({title,subtitle,showReset}:EmptyStateProps) => {
 
     return (
         <div className="h-[60vh] flex flex-col gap-2 justify-center itmes-center">
-            <Heading title="No exact matches" subtitle="Try changing or removing few of your filters."/>
+            <Heading title={title ?? "No exact matches"} subtitle={subtitle ?? "Try changing or removing few of your filters"}/>
         </div>
     )
 }
