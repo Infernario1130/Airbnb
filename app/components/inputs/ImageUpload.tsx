@@ -28,6 +28,7 @@ const ImageUpload = ({ onChange, value }: ImageUploadProps) => {
 
   const handleUpload = useCallback(
     (result: any) => {
+      console.log("Upload result:", result);
       if (result?.info?.secure_url) {
         onChange(result.info.secure_url);
       }
@@ -37,7 +38,7 @@ const ImageUpload = ({ onChange, value }: ImageUploadProps) => {
 
   return (
     <CldUploadWidget
-      onUpload={handleUpload}
+      onSuccess={handleUpload}
       uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!}
       options={{
         maxFiles: 1,
