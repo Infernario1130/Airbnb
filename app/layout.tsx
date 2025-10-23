@@ -10,6 +10,7 @@ import LoginModal from "./components/modals/LoginModal";
 import RentModal from "./components/modals/RentModal";
 import "leaflet/dist/leaflet.css";
 import ClientOnly from "./components/ClientOnly";
+import SearchModal from "./components/modals/SearchModal";
 
 const font =  Nunito ({
   variable: "--font-nunito",
@@ -37,6 +38,7 @@ export default async function RootLayout({
         className={`${font.variable} antialiased`}
       >
         <ToasterProvider/>
+        <SearchModal/>
         <RentModal/>
         <RegisterModal/>
         <LoginModal/>
