@@ -3,66 +3,60 @@
 import { useRouter } from "next/navigation";
 import Container from "../components/Container";
 import Heading from "../components/Heading";
-import { SafeListing, SafeReservation, SafeUser } from "../types";
+import { SafeListing, SafeUser } from "../types";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import ListingCard from "../components/listings/ListingCard";
 
 interface PropertiesClientProps {
-    listings: SafeListing[];
-    currentUser: SafeUser | null;
+  listings: SafeListing[];
+  currentUser: SafeUser | null;
 }
 
-const PropertiesClient = ({listings,currentUser}: PropertiesClientProps) => {
-    const router = useRouter();
-    const [deletingId,setDeletingId] = useState("");
+const PropertiesClient = ({ listings, currentUser }: PropertiesClientProps) => {
+  const router = useRouter();
+  const [deletingId, setDeletingId] = useState("");
 
-    const onCancel = useCallback((id: string) => {
-        setDeletingId(id);
+  const onCancel = useCallback(
+    (id: string) => {
+      setDeletingId(id);
 
-        axios.delete(`/api/listings/${id}`).then(() => {
-            toast.success("Listings cancelled.")
-            router.refresh()
+      axios
+        .delete(`/api/listings/${id}`)
+        .then(() => {
+          toast.success("Listings cancelled.");
+          router.refresh();
         })
         .catch((error) => {
-            toast.error(error?.response?.data?.error)
-        }).finally(() => {
-            setDeletingId("")
+          toast.error(error?.response?.data?.error);
         })
-    },[router])
-    return (
-        <Container>
-            <Heading title="Properties" subtitle="List of your properties"/>
+        .finally(() => {
+          setDeletingId("");
+        });
+    },
+    [router]
+  );
 
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-5 2xl: grid-cols-6 gap-8 text-black">
-            {listings.map((listing) => {
-                const formattedUser = currentUser
-                    ? {
-                    ...currentUser,
-                        createdAt: new Date(currentUser.createdAt),
-                        updatedAt: new Date(currentUser.updatedAt),
-                        emailVerified: currentUser.emailVerified
-                        ? new Date(currentUser.emailVerified)
-                        : null,
-                    }
-                    : null;
+  return (
+    <Container>
+      <Heading title="Properties" subtitle="List of your properties" />
 
-            return (
-                    <ListingCard
-                    key={listing.id}
-                    data={listing}
-                    actionId={listing.id}
-                    onAction={onCancel}
-                    disabled={deletingId === listing.id}
-                    actionLabel="Delete Property"
-                    currentUser={formattedUser}
-                    />
-                );
-            })}
-            </div>
-        </Container>
-    )
-}
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8 text-black">
+        {listings.map((listing) => (
+          <ListingCard
+            key={listing.id}
+            data={listing}
+            actionId={listing.id}
+            onAction={onCancel}
+            disabled={deletingId === listing.id}
+            actionLabel="Delete Property"
+            currentUser={currentUser} // pass SafeUser directly
+          />
+        ))}
+      </div>
+    </Container>
+  );
+};
 
-export default PropertiesClient
+export default PropertiesClient;
