@@ -13,41 +13,52 @@ import "leaflet/dist/leaflet.css";
 import ClientOnly from "./components/ClientOnly";
 import SearchModal from "./components/modals/SearchModal";
 
-const font =  Nunito ({
+const font = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
 });
-
 
 export const metadata: Metadata = {
   title: "Airbnb",
   description: "Explore rentals, connect, book now",
 };
 
-
-
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const currentUser = await getCurrentUser();
+  let currentUser = null;
+
+  try {
+    const user = await getCurrentUser();
+
+    if (user) {
+     
+      currentUser = {
+        ...user,
+        createdAt: new Date(user.createdAt),
+        updatedAt: new Date(user.updatedAt),
+        emailVerified: user.emailVerified ? new Date(user.emailVerified) : null,
+      };
+    }
+  } catch (error) {
+    console.error("Error fetching current user in layout:", error);
+    currentUser = null;
+  }
 
   return (
     <html lang="en">
-      <body
-        className={`${font.variable} antialiased`}
-      >
-        <ToasterProvider/>
-        <SearchModal/>
-        <RentModal/>
-        <RegisterModal/>
-        <LoginModal/>
-        <Navbar currentUser={currentUser as any}/>
+      <body className={`${font.variable} antialiased`}>
+        <ToasterProvider />
+        <SearchModal />
+        <RentModal />
+        <RegisterModal />
+        <LoginModal />
+
+        <Navbar currentUser={currentUser ?? null} />
         <ClientOnly>
-           <div className="pb-20 pt-24">
-            {children}
-           </div>
+          <div className="pb-20 pt-24">{children}</div>
         </ClientOnly>
       </body>
     </html>

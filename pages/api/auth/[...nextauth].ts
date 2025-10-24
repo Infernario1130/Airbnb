@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import NextAuth, {NextAuthOptions} from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -51,21 +51,29 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  pages: { signIn: "/" },
+  pages: { signIn: "/" }, 
   debug: process.env.NODE_ENV === "development",
   session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
 
-  // <<< ADD CALLBACKS HERE >>>
   callbacks: {
+
+    async redirect({ url, baseUrl }) {
+  
+      if (url.startsWith(baseUrl)) return url;
+      return baseUrl; 
+    },
+
     async signIn({ user, account, profile, email, credentials }) {
       console.log("SIGNIN CALLBACK:", { user, account, profile, email, credentials });
-      return true; // allow sign in
+      return true; 
     },
+
     async jwt({ token, user, account, profile, isNewUser }) {
       console.log("JWT CALLBACK:", { token, user, account, profile, isNewUser });
       return token;
     },
+
     async session({ session, token, user }) {
       console.log("SESSION CALLBACK:", { session, token, user });
       return session;
