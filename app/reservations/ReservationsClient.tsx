@@ -10,75 +10,51 @@ import { useRouter } from "next/navigation";
 import ListingCard from "../components/listings/ListingCard";
 
 interface ReservationsClientProps {
-    reservations: SafeReservation[];
-    currentUser: SafeUser | null;
+  reservations: SafeReservation[];
+  currentUser: SafeUser | null;
 }
 
-const ReservationsClient = ({reservations,currentUser}: ReservationsClientProps) => {
+const ReservationsClient = ({ reservations, currentUser }: ReservationsClientProps) => {
+  const router = useRouter();
+  const [deletingId, setDeletingId] = useState("");
 
-    const router = useRouter();
-    const [deletingId,setDeletingId] = useState("");
+  const onCancel = useCallback((id: string) => {
+    setDeletingId(id);
 
-    const onCancel = useCallback((id:string) => {
-        setDeletingId(id);
+    axios
+      .delete(`/api/reservations/${id}`)
+      .then(() => {
+        toast.success("Reservations cancelled");
+        router.refresh();
+      })
+      .catch(() => {
+        toast.error("Something went wrong.");
+      })
+      .finally(() => {
+        setDeletingId("");
+      });
+  }, [router]);
 
-        axios.delete(`/api/reservations/${id}`)
-        .then(() => {
-            toast.success("Reservations cancelled");
-            router.refresh()
-        })
-        .catch(() => {
-            toast.error("Something went wrong.")
-        })
-        .finally(() => {
-            setDeletingId("")
-        })
-    }, [router])
+  return (
+    <Container>
+      <Heading title="Reservations" subtitle="Booking on your properties" />
 
-    return (
-        <Container>
-            <Heading
-            title="Reservations"
-            subtitle="Booking on your properties"/>
-
-            <div className="
-            mt-10
-            grid
-            grid-cols-1
-            sm:grid-cols-2
-            md:grid-cols-3
-            lg:grid-cols-4
-            xl:grid-cols-5
-            2xl:grid-cols-6
-            gap-8">
-                {reservations.map((reservation) => {
-
-                    const formattedUser = currentUser
-                    ? {
-                    ...currentUser,
-                        createdAt: new Date(currentUser.createdAt),
-                        updatedAt: new Date(currentUser.updatedAt),
-                        emailVerified: currentUser.emailVerified
-                        ? new Date(currentUser.emailVerified)
-                        : null,
-                    }
-                    : null;
-                    return (
-                        <ListingCard
-                    key={reservation.id}
-                    data={reservation.listing}
-                    reservation={reservation}
-                    actionId={reservation.id}
-                    onAction={onCancel}
-                    disabled={deletingId === reservation.id}
-                    actionLabel="Cancel guest reservation"
-                    currentUser={formattedUser}
-                    />
-                    )
-                })}
-            </div>
-        </Container>
-    )
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
+        {reservations.map((reservation) => (
+          <ListingCard
+            key={reservation.id}
+            data={reservation.listing}
+            reservation={reservation}
+            actionId={reservation.id}
+            onAction={onCancel}
+            disabled={deletingId === reservation.id}
+            actionLabel="Cancel guest reservation"
+            currentUser={currentUser} // use directly
+          />
+        ))}
+      </div>
+    </Container>
+  );
 }
 
-export default ReservationsClient
+export default ReservationsClient;
