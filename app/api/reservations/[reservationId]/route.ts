@@ -6,14 +6,15 @@ interface IParams {
     reservationId?: string;
 }
 
-export async function DELETE(request : NextRequest,{params}: {params: IParams}) {
+export async function DELETE(request : NextRequest, context: {params: Promise<IParams>}) {
+
+    const {params} = context;
+    const reservationId = await params 
     const currentUser = await getCurrentUser();
 
     if (!currentUser) {
         return NextResponse.error()
     }
-
-    const {reservationId} = params;
 
     if(!reservationId || typeof reservationId !== "string") {
         throw new Error("Invalid ID")

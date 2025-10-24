@@ -45,14 +45,15 @@ export async function POST(request: NextRequest,
 }
 
 
-export async function DELETE (request: NextRequest, {params} : {params : IParams}) {
+export async function DELETE (request: NextRequest, context : {params : Promise<IParams>}) {
     const currentUser = await getCurrentUser();
 
+    
     if (!currentUser) {
         return NextResponse.error()
     }
-
-    const { listingId } =  params;
+    const { params } = context
+    const { listingId } =  await params;
 
     if (!listingId || typeof listingId != "string") {
         throw new Error ("Invalid ID")
