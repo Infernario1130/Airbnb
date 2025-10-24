@@ -8,7 +8,7 @@ import { format } from "date-fns";
 import Image from "next/image";
 import HeartButton from "../HeartButton";
 import Button from "../Button";
-import { SafeListing, SafeReservation } from "@/app/types";
+import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
 
 interface ListingCardProps {
   data: SafeListing;
@@ -17,7 +17,7 @@ interface ListingCardProps {
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
-  currentUser?: User | null;
+  currentUser?: SafeUser | null;
 }
 
 const ListingCard = ({
