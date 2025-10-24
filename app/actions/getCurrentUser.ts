@@ -4,40 +4,37 @@ import prisma from "../libs/prismadb";
 import { SafeUser } from "../types";
 
 export async function getSession() {
-    return await getServerSession(authOptions)
+  return await getServerSession(authOptions);
 }
 
-export default async function getCurrentUser() {
-   try {
-    const session =  await getSession()
-        
-        if (!session?.user?.email) {
-            return null
-        }
+export default async function getCurrentUser(): Promise<SafeUser | null> {
+  try {
+    const session = await getSession();
 
-        const currentUser = await prisma.user.findUnique({
-            where: {
-                email: session.user.email as string
-            }
-        })
+    if (!session?.user?.email) {
+      return null;
+    }
 
-        if (!currentUser) {
-            return null
-        }
+    const currentUser = await prisma.user.findUnique({
+      where: { email: session.user.email },
+    });
 
-        return {
-            id: currentUser.id.toString(),
-            name: currentUser.name,
-            email: currentUser.email,
-            image: currentUser.image,
-            favoriteIds: currentUser.favoriteIds,
-            createdAt: currentUser.createdAt.toISOString(),
-            updatedAt: currentUser.updatedAt.toISOString(),
-            emailVerified: currentUser.emailVerified ? currentUser.emailVerified.toISOString() : null
-        } as SafeUser;
-        
+    if (!currentUser) {
+      return null;
+    }
 
-   } catch(error) {
-                return null
-             }
+    const safeUser: SafeUser = {
+      ...currentUser,
+      createdAt: currentUser.createdAt.toISOString(),
+      updatedAt: currentUser.updatedAt.toISOString(),
+      emailVerified: currentUser.emailVerified
+        ? currentUser.emailVerified.toISOString()
+        : null,
+    };
+
+    return safeUser;
+  } catch (error) {
+    console.error("Error fetching current user:", error);
+    return null;
+  }
 }
