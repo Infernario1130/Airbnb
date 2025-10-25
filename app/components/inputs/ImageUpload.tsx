@@ -17,7 +17,7 @@ interface ImageUploadProps {
 }
 
 const ImageUpload = ({ onChange, value }: ImageUploadProps) => {
-  // Set Cloudinary cloudName on client
+  
   useEffect(() => {
     if (typeof window !== "undefined" && !window.cloudinary) {
       window.cloudinary = {
