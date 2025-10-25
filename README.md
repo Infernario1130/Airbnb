@@ -36,3 +36,81 @@ A fully functional **Airbnb Clone** built with **Next.js 13**, **TypeScript**, *
 
 ## 📁 Project Structure
 
+app/
+- **├─ actions/            # Server-side API actions (get listings, users, reservations)** 
+- **├─ components/         # Reusable components (modals, inputs, navbar, listings, etc.)** 
+- **├─ hooks/               # Custom hooks (modal state, favorites, countries)** 
+- **├─ providers/**          # Context providers (ToasterProvider)
+- **├─ listings/**            # Listings pages and client components
+- **├─ trips/**               # Trips pages
+- **├─ properties/**          # User properties management
+- **├─ reservations/**        # Reservations management
+- **├─ types/               # Type definitions (SafeUser, SafeListing *SafeReservation)** 
+- **├─ globals.css**         # Tailwind CSS base
+- **├─ layout.tsx**          # Root layout with Navbar and Modals
+
+
+## ⚙️ Installation
+
+### Clone the repository
+
+git clone <repo-url>
+cd airbnb-clone
+
+### Install dependencies
+
+npm install
+
+## Ste up environment variables
+
+### Create a .env file in the project root:
+
+DATABASE_URL=<your-database-url>
+NEXTAUTH_SECRET=<random-secret>
+GITHUB_ID=<your-github-client-id>
+GITHUB_SECRET=<your-github-client-secret>
+
+
+## Run Prisma migrations
+
+npx prisma migrate dev
+
+## Run the development server 
+
+npm run dev
+
+
+## Open in browser
+
+http://localhost:3000
+
+
+## 🧭 Usage
+
+- Click **“Airbnb your home”** to create a new listing  
+- Use the **search bar** to filter listings by location, date, and guests  
+- **Favorite** listings by clicking the heart icon  
+- View your **trips** and **reservations** from the profile menu  
+- Manage your **properties** in the “Properties” section  
+
+---
+
+## 📝 Notes
+
+- The app uses **Zustand** for modal state management  
+- Dynamic pages fetch data on the **server** for SEO and performance  
+- **Client-only components** ensure interactivity like modals, search, and maps  
+- Date calculations for reservations use **date-fns**  
+
+---
+
+## 🚧 Future Enhancements
+
+- Add image upload support for listings using **Cloudinary** or **AWS S3**  
+- Add messaging between hosts and guests  
+- Integrate **Stripe** for payments
+
+
+
+
+
