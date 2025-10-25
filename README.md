@@ -101,14 +101,9 @@ http://localhost:3000
 - Dynamic pages fetch data on the **server** for SEO and performance  
 - **Client-only components** ensure interactivity like modals, search, and maps  
 - Date calculations for reservations use **date-fns**  
-
+- Add image upload support for listings using **Cloudinary** or **AWS S3**  
 ---
 
-## 🚧 Future Enhancements
-
-- Add image upload support for listings using **Cloudinary** or **AWS S3**  
-- Add messaging between hosts and guests  
-- Integrate **Stripe** for payments
 
 
 
